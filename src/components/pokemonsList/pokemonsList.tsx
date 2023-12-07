@@ -13,29 +13,48 @@ export interface PokemonsListProps {
 }
 
 export const PokemonsList = async ({
-  limit = 10,
+  limit = 50,
   page,
   type,
   query,
 }: PokemonsListProps) => {
   const parsedOffset: number = page < 1 ? 1 : page * limit;
+  let parsedLimit: number = limit;
+
+  if (query) parsedLimit = 500;
+  else if (type) parsedLimit = 100;
 
   const response = await getPokemonsAction({
     offset: parsedOffset,
-    limit,
+    limit: parsedLimit,
   });
 
   const { results: pokemons = [], count = 0 } = response;
 
   const isMinItems: boolean = page <= 1;
-  const isMaxItems: boolean = limit * page >= count;
+  const isMaxItems: boolean = parsedLimit * page >= count;
 
+  const filteredPokemons: PokemonBase[] = pokemons.filter(
+    (pokemon: PokemonBase) => {
+      const matchSearch: boolean = new RegExp(query, "i").test(
+        pokemon?.name ?? "",
+      );
+
+      if (!!query) return matchSearch;
+
+      return true;
+    },
+  );
   return (
     <section className="w-full flex flex-col justify-between items-stretch gap-10">
       <div className="w-full p-4 pt-16 flex flex-row flex-wrap justify-center items-center gap-x-10 gap-y-20">
-        {pokemons.map(({ name = "" }: PokemonBase) => (
+        {filteredPokemons.map(({ name = "" }: PokemonBase) => (
           <Suspense key={`pokemon-${name}`} fallback={<PokemonCardSkeleton />}>
-            <PokemonCard name={name} />
+            <PokemonCard
+              control-id={`pokemon-${name}`}
+              filterType={type}
+              name={name}
+            />
           </Suspense>
         ))}
       </div>

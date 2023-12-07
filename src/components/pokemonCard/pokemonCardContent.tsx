@@ -4,38 +4,34 @@ import { capitalize } from "lodash";
 import { PokemonCarButton } from "@components/pokemonCard/PokemonCarButton";
 import { PokemonModel } from "@models/pokemon.model";
 import { TypeModel } from "@models/type.model";
-import { PokemonType, PokemonTypeModel } from "@models/pokemonType.model";
-import { parseToPokemonTypeModel } from "@utils/parseToPokemonTypeModel";
-import { getPokemonSizeClassNames } from "@utils/getPokemonSizeClassNames";
+import { PokemonTypeModel } from "@models/pokemonType.model";
 
 export interface PokemonCardContentProps extends Omit<PokemonModel, "types"> {
   types?: TypeModel[];
+  coverElevation: string;
+  coverSize: string;
+  parsedTypes: PokemonTypeModel[];
+  cover: string;
 }
 
 export const PokemonCardContent = ({
   name = "",
-  sprites,
-  types = [],
   height,
   weight,
+  coverElevation,
+  coverSize,
+  parsedTypes,
+  cover,
 }: PokemonCardContentProps) => {
-  const typesBase = (types ?? [])
-    .map(({ type }) => type)
-    .filter((type) => !!type) as PokemonType[];
-
-  const parsedTypes: PokemonTypeModel[] = parseToPokemonTypeModel(typesBase);
-
-  const { coverElevation, coverSize } = getPokemonSizeClassNames({ height: 0 });
-
   return (
     <div className="relative p-4 w-full h-full flex flex-col justify-start items-stretch gap-1 z-20">
-      {!!sprites.other?.dream_world.front_default && (
+      {cover && (
         <div
           className={`absolute left-0 ${coverElevation} h-48 w-full flex justify-center items-center`}
         >
           <Image
             alt={name}
-            src={sprites.other?.dream_world.front_default}
+            src={cover}
             width={100}
             height={100}
             className={`${coverSize} max-h-[200px] h-auto object-contain`}

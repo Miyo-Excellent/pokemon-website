@@ -1,15 +1,8 @@
+"use server";
+import { PokemonSize } from "@models/pokemonSize";
+
 export interface getPokemonSizeClassNamesOptions {
   height: number;
-}
-
-export interface PokemonSize {
-  isVeryLarge: boolean;
-  isLarge: boolean;
-  isMedium: boolean;
-  isSmall: boolean;
-  isVerySmall: boolean;
-  coverElevation: string;
-  coverSize: string;
 }
 
 export const getPokemonSizeClassNames = ({

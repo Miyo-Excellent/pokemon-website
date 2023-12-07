@@ -1,6 +1,7 @@
+"use client";
 import { PokemonTypeEnum } from "@enums/PokemonType.enum";
 
-export const getPokemonCardGradientByType = (
+export const getClientPokemonCardGradientByType = (
   typeName: string = "",
   by: "from" | "to" | "via" | "none" = "none",
 ): string => {

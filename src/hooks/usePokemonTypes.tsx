@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { PokemonType, PokemonTypeModel } from "@models/pokemonType.model";
 import { getPokemonTypesAction } from "@/actions/getPokemonTypes.action";
-import { parseToPokemonTypeModel } from "@utils/parseToPokemonTypeModel";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { clientParseToPokemonTypeModel } from "@utils/client/clientParseToPokemonTypeModel";
 
 export interface UsePokemonOptions {}
 
@@ -19,11 +19,11 @@ export const usePokemonTypes = ({}: UsePokemonOptions = {}) => {
       const base: PokemonType[] = (await getPokemonTypesAction()) ?? [];
 
       setIsLoading(false);
-      setData(parseToPokemonTypeModel(base));
+      setData(clientParseToPokemonTypeModel(base));
     })();
   }, []);
 
-  const icons = parseToPokemonTypeModel(
+  const icons = clientParseToPokemonTypeModel(
     data.map(({ name = "", url = "" }) => ({ name, url })),
   );
 

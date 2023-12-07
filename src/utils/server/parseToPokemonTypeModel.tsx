@@ -1,3 +1,4 @@
+"use server";
 import { PokemonType, PokemonTypeModel } from "@models/pokemonType.model";
 import { PokemonTypeEnum } from "@enums/PokemonType.enum";
 import Bug from "@icons/types/bug.svg";

@@ -1,4 +1,5 @@
-import { getPokemonCardGradientByType } from "@utils/getPokemonCardGradientByType";
+"use server";
+import { getPokemonCardGradientByType } from "@utils/server/getPokemonCardGradientByType";
 import { TypeModel } from "@models/type.model";
 
 export const getBackgroundByTypes = (types: TypeModel[] = []): string => {
