@@ -3,8 +3,6 @@ import { Header } from "@components/header";
 import { PokemonsList } from "@components/pokemonsList/pokemonsList";
 import { PokemonDetailsModal } from "@components/pokemonModal/pokemonDetailsModal";
 import { PokemonsListSkeleton } from "@components/pokemonsList/pokemonsListSkeleton";
-import { montserrat } from "@app/fonts";
-import { PokemonModalSkeleton } from "@components/pokemonModal/pokemonModalSkeleton";
 
 export interface RootPageProps {
   searchParams?: {
@@ -17,29 +15,23 @@ export interface RootPageProps {
 
 export default function RootPage({ searchParams }: RootPageProps) {
   const hasPokemonParam: boolean = !!searchParams?.pokemon;
+  const page: number = Number(searchParams?.page ?? "1");
+  const type: string = searchParams?.type ?? "";
+  const query: string = searchParams?.query ?? "";
 
   return (
-    <body
-      className={`${montserrat.className}  ${
+    <main
+      className={`${
         hasPokemonParam ? "overflow-y-hidden" : "overflow-y-auto"
-      } antialiased bg-gray-950 min-h-screen relative`}
+      } antialiased w-full h-full p-8 bg-gray-950 min-h-screen relative flex-1 flex flex-col justify-start items-center gap-8`}
     >
-      {hasPokemonParam && (
-        <Suspense fallback={<PokemonModalSkeleton />}>
-          <PokemonDetailsModal />
-        </Suspense>
-      )}
+      {hasPokemonParam && <PokemonDetailsModal />}
 
-      <main className="pb-4 pt-4 pl-12 pr-12 flex flex-col justify-start items-stretch gap-10">
-        <Header type={searchParams?.type} />
-        <Suspense fallback={<PokemonsListSkeleton />}>
-          <PokemonsList
-            page={Number(searchParams?.page || "1")}
-            query={searchParams?.query}
-            type={searchParams?.type}
-          />
-        </Suspense>
-      </main>
-    </body>
+      <Header type={searchParams?.type} />
+
+      <Suspense fallback={<PokemonsListSkeleton />}>
+        <PokemonsList page={page} type={type} query={query} />
+      </Suspense>
+    </main>
   );
 }

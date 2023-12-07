@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ReactNode } from "react";
 import "@styles/globals.scss";
+import { montserrat } from "@app/fonts";
 
 export interface RootLayoutProps {
   children: ReactNode;
@@ -12,5 +13,13 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: RootLayoutProps) {
-  return <html lang="en">{children}</html>;
+  return (
+    <html lang="en">
+      <body
+        className={`${montserrat.className} flex justify-start items-center`}
+      >
+        {children}
+      </body>
+    </html>
+  );
 }

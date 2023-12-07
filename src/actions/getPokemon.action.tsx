@@ -13,7 +13,11 @@ export const getPokemonAction = async ({
   name,
   id = 1,
 }: getPokemonActionOptions): Promise<PokemonModel | undefined> => {
-  const response = await pokemonAPI.pokemon.one(name || id.toString());
+  try {
+    const response = await pokemonAPI.pokemon.one(name || id.toString());
 
-  return response.data as PokemonModel | undefined;
+    return response.data as PokemonModel | undefined;
+  } catch (error) {
+    console.error(error);
+  }
 };

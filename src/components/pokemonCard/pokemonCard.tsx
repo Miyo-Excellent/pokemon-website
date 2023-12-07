@@ -1,42 +1,22 @@
-import { PokemonBase, PokemonModel } from "@models/pokemon.model";
-import { pokemonAPI } from "@services/pokemonApi.service";
 import { PokemonCardBackground } from "@components/pokemonCard/pokemonCardBackground";
 import { PokemonCardContent } from "@components/pokemonCard/pokemonCardContent";
-import { getBackgroundByTypes } from "@utils/getBackgroundByTypes";
 import pokeballSvg from "@icons/pokeball.svg";
+import { getBackgroundByTypes } from "@utils/getBackgroundByTypes";
+import { getPokemonAction } from "@/actions/getPokemon.action";
+import { PokemonModel } from "@models/pokemon.model";
 
-export interface PokemonCardProps extends PokemonBase {
-  filterType?: string;
+export interface PokemonCardProps {
+  name: string;
 }
 
-export const PokemonCard = async ({
-  filterType,
-  ...pokemonBase
-}: PokemonCardProps) => {
-  const { url, name } = pokemonBase;
+export const PokemonCard = async ({ name }: PokemonCardProps) => {
+  const data: PokemonModel | undefined = await getPokemonAction({ name });
 
-  const urlChunks: string[] = url.split("/").filter((chunk) => !!chunk);
-  const id: string = urlChunks[urlChunks.length - 1];
-
-  const response = await pokemonAPI.pokemon.one(Number(id));
-
-  const data: PokemonModel | undefined = response.data as
-    | PokemonModel
-    | undefined;
-
-  const gradient: string = getBackgroundByTypes(data?.types);
-
-  const hidden: boolean =
-    !!filterType &&
-    !(data?.types || []).some(({ type }) =>
-      new RegExp(type.name, "i").test(filterType),
-    );
+  const gradient: string = getBackgroundByTypes(data?.types ?? []);
 
   return (
     <article
-      className={`${
-        hidden ? "hidden" : ""
-      } ${gradient} relative w-[250px] h-[350px] shadow-inner shadow-gray-800 border border-solid border-opacity-50 border-gray-300 rounded-3xl`}
+      className={`${gradient} relative w-[250px] h-[350px] shadow-inner shadow-gray-800 border border-solid border-opacity-50 border-gray-300 rounded-3xl`}
     >
       <PokemonCardBackground image={pokeballSvg} />
       {!!data && <PokemonCardContent {...data} />}

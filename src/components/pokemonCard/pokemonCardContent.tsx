@@ -13,25 +13,19 @@ export interface PokemonCardContentProps extends Omit<PokemonModel, "types"> {
 }
 
 export const PokemonCardContent = ({
-  name,
+  name = "",
   sprites,
   types = [],
   height,
   weight,
 }: PokemonCardContentProps) => {
-  const parsedTypes: PokemonTypeModel[] = parseToPokemonTypeModel(
-    types.map<PokemonType>(({ type }) => type),
-  );
+  const typesBase = (types ?? [])
+    .map(({ type }) => type)
+    .filter((type) => !!type) as PokemonType[];
 
-  const {
-    isVeryLarge,
-    isLarge,
-    isMedium,
-    isSmall,
-    isVerySmall,
-    coverElevation,
-    coverSize,
-  } = getPokemonSizeClassNames({ height });
+  const parsedTypes: PokemonTypeModel[] = parseToPokemonTypeModel(typesBase);
+
+  const { coverElevation, coverSize } = getPokemonSizeClassNames({ height: 0 });
 
   return (
     <div className="relative p-4 w-full h-full flex flex-col justify-start items-stretch gap-1 z-20">
@@ -70,7 +64,7 @@ export const PokemonCardContent = ({
             className={`py-2 px-4 rounded-xl ${type.color} flex-1 flex flex-row flex-nowrap items-center justify-center gap-2`}
           >
             <Image
-              alt={type.name}
+              alt={type?.name ?? ""}
               src={type.icon}
               height={50}
               width={50}

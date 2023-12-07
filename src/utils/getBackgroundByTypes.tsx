@@ -2,9 +2,9 @@ import { getPokemonCardGradientByType } from "@utils/getPokemonCardGradientByTyp
 import { TypeModel } from "@models/type.model";
 
 export const getBackgroundByTypes = (types: TypeModel[] = []): string => {
-  const one: string = types[0]?.type.name ?? "";
-  const two: string = types[1]?.type.name ?? "";
-  const three: string = types[2]?.type.name ?? "";
+  const one: string = types[0]?.type?.name ?? "";
+  const two: string = types[1]?.type?.name ?? "";
+  const three: string = types[2]?.type?.name ?? "";
 
   let from: string = "from-blue-950";
   let via: string = "via-teal-800";

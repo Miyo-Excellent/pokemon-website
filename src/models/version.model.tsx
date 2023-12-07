@@ -9,13 +9,13 @@ import { GenerationViiiModelSchema } from "@models/generationViii.model";
 
 // @ts-ignore
 export const VersionsModelSchema = z.object({
-  "generation-i": GenerationIModelSchema,
-  "generation-ii": GenerationIiiModelSchema,
-  "generation-iii": GenerationIiiModelSchema,
-  "generation-iv": GenerationIvModelSchema,
-  "generation-v": GenerationVModelSchema,
-  "generation-vi": z.record(z.string(), HomeModelSchema),
-  "generation-vii": GenerationViiModelSchema,
-  "generation-viii": GenerationViiiModelSchema,
+  "generation-i": GenerationIModelSchema.optional(),
+  "generation-ii": GenerationIiiModelSchema.optional(),
+  "generation-iii": GenerationIiiModelSchema.optional(),
+  "generation-iv": GenerationIvModelSchema.optional(),
+  "generation-v": GenerationVModelSchema.optional(),
+  "generation-vi": z.record(z.string(), HomeModelSchema).optional(),
+  "generation-vii": GenerationViiModelSchema.optional(),
+  "generation-viii": GenerationViiiModelSchema.optional(),
 });
 export type VersionsModel = z.infer<typeof VersionsModelSchema>;

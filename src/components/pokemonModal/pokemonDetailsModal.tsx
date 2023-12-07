@@ -4,64 +4,25 @@ import Image from "next/image";
 import { GiBodyHeight, GiWeight, GiSkills } from "react-icons/gi";
 import { useRouter, useSearchParams } from "next/navigation";
 import { capitalize } from "lodash";
-import { getBackgroundByTypes } from "@utils/getBackgroundByTypes";
 import { PokemonModalCloseButton } from "@/components/pokemonModal/pokemonModalCloseButton";
-import { PokemonModel } from "@models/pokemon.model";
-import { getPokemonAction } from "@/actions/getPokemon.action";
 import { PokemonModalSkeleton } from "@components/pokemonModal/pokemonModalSkeleton";
-import {
-  getPokemonSizeClassNames,
-  PokemonSize,
-} from "@utils/getPokemonSizeClassNames";
-import { PokemonType, PokemonTypeModel } from "@models/pokemonType.model";
-import { parseToPokemonTypeModel } from "@utils/parseToPokemonTypeModel";
+import { usePokemon } from "@hooks/usePokemon";
 
 export interface PokemonDetailsModalProps {}
 
 export const PokemonDetailsModal = ({}: PokemonDetailsModalProps) => {
-  const [gradient, setGradient] = useState<string>("");
-  const [types, setTypes] = useState<PokemonTypeModel[]>([]);
-  const [data, setData] = useState<PokemonModel | undefined>();
-  const [size, setSize] = useState<PokemonSize | undefined>();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const routes = useRouter();
   const searchParams = useSearchParams();
   const pokemonName: string | null = searchParams.get("pokemon");
   const active = !!pokemonName;
 
+  const { gradient, data, isLoading, types, size } = usePokemon({
+    name: pokemonName ?? "",
+  });
+
   const onClose: MouseEventHandler<HTMLButtonElement> = (event) => {
     routes.back();
   };
-
-  useEffect(() => {
-    (async () => {
-      if (pokemonName) {
-        const pokemonData: PokemonModel | undefined = await getPokemonAction({
-          name: pokemonName,
-        });
-
-        setIsLoading(false);
-
-        if (pokemonData) {
-          setData(pokemonData);
-
-          const _types: PokemonTypeModel[] = parseToPokemonTypeModel(
-            pokemonData.types.map<PokemonType>(({ type }) => type),
-          );
-
-          const _size: PokemonSize = getPokemonSizeClassNames({
-            height: pokemonData.height,
-          });
-
-          const _gradient: string = getBackgroundByTypes(pokemonData.types);
-
-          setTypes(_types);
-          setGradient(_gradient);
-          setSize(_size);
-        }
-      }
-    })();
-  }, []);
 
   if (isLoading) return <PokemonModalSkeleton />;
 
@@ -84,7 +45,7 @@ export const PokemonDetailsModal = ({}: PokemonDetailsModalProps) => {
                 className={`py-2 px-4 rounded-xl ${type.color} flex-1 flex flex-row flex-nowrap items-center justify-center gap-2`}
               >
                 <Image
-                  alt={type.name}
+                  alt={type?.name ?? ""}
                   src={type.icon}
                   height={50}
                   width={50}
@@ -131,8 +92,8 @@ export const PokemonDetailsModal = ({}: PokemonDetailsModalProps) => {
               <GiSkills className="text-3xl" />
               {"Skills: "}
               <span className="font-normal text-md">
-                {data?.abilities
-                  .map(({ ability }) => capitalize(ability.name))
+                {(data?.abilities ?? [])
+                  .map(({ ability }) => capitalize(ability?.name ?? ""))
                   .join(", ")}
               </span>
             </p>

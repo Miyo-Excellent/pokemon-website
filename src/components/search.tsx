@@ -1,7 +1,8 @@
 "use client";
 import { ChangeEvent, MouseEvent, useState } from "react";
-import { BsSearch } from "react-icons/bs";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
+import { BsSearch } from "react-icons/bs";
 
 export interface SearchProps {}
 
@@ -9,7 +10,6 @@ export const Search = (props: SearchProps) => {
   const [params, setParams] = useState<URLSearchParams | undefined>(undefined);
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const router = useRouter();
 
   const onChangeQuery = ({ target }: ChangeEvent<HTMLInputElement>) => {
     const query: string = target.value;
@@ -19,10 +19,6 @@ export const Search = (props: SearchProps) => {
     else _params.delete("query");
 
     setParams(_params);
-  };
-
-  const onSearch = ({}: MouseEvent<HTMLButtonElement>) => {
-    if (!!params) router.push(`${pathname}?${params.toString()}`);
   };
 
   return (
@@ -44,13 +40,13 @@ export const Search = (props: SearchProps) => {
           />
         </label>
 
-        <button
-          onClick={onSearch}
+        <Link
+          href={`${pathname}?${params?.toString()}`}
           type="button"
           className="w-[35px] h-[35px] absolute top-[5%] right-[3px] bg-gradient-to-r from-purple-950 via-purple-900 to-purple-800 p-2 rounded-3xl"
         >
           <BsSearch className="text-white font-bold text-xl" />
-        </button>
+        </Link>
       </div>
     </div>
   );
