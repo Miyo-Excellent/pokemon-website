@@ -14,12 +14,12 @@ export const HorizontalTypes = ({ selected }: HorizontalTypesProps) => {
   if (isLoading) return null;
 
   return (
-    <div className="w-full flex flex-col flex-nowrap justify-start items-stretch">
+    <div className="lg:max-w-[50%] xl:max-w-[40%] 2xl:max-w-[30%] w-full flex flex-col flex-nowrap justify-start items-stretch">
       <h4 className="pl-2 mb-1 text-white text-lg">{`Filter by type: ${capitalize(
         !!selected ? selected : "All",
       )}`}</h4>
 
-      <ul className="natures bg-gray-700 rounded-3xl p-1 w-full overflow-x-auto no-scrollbar snap-x snap-mandatory flex flex-1 flex-row flex-nowrap justify-start items-center gap-2">
+      <ul className="bg-gray-700 rounded-3xl p-1 w-full overflow-x-auto no-scrollbar snap-x snap-mandatory flex flex-1 flex-row flex-nowrap justify-start items-center gap-2">
         {data.map(({ name = "", icon, color = "" }) => {
           const active: boolean = getActiveStatus(name);
 

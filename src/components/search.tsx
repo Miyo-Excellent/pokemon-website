@@ -22,7 +22,7 @@ export const Search = (props: SearchProps) => {
   };
 
   return (
-    <div className="flex-1 flex flex-col flex-nowrap">
+    <div className="min-w-[50%] flex-1 flex flex-col flex-nowrap">
       <div className="flex flex-1 flex-row flex-nowrap justify-start items-center">
         <BsSearch className="text-white font-bold text-lg" />
 
