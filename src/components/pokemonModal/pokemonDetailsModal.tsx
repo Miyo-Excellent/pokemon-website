@@ -1,5 +1,5 @@
 "use client";
-import { MouseEventHandler, useEffect, useState } from "react";
+import { MouseEventHandler } from "react";
 import Image from "next/image";
 import { GiBodyHeight, GiWeight, GiSkills } from "react-icons/gi";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -30,7 +30,7 @@ export const PokemonDetailsModal = ({}: PokemonDetailsModalProps) => {
     <section
       className={`${
         active ? "" : "hidden"
-      } fixed bg-gray-950 bg-opacity-80 h-full w-full z-30 flex justify-center items-center p-10`}
+      } fixed top-0 left-0 bg-gray-950 bg-opacity-80 max-h-full max-w-full h-full w-full z-30 flex justify-center items-center p-10`}
     >
       {!isLoading && (
         <article
@@ -60,14 +60,14 @@ export const PokemonDetailsModal = ({}: PokemonDetailsModalProps) => {
           </div>
 
           <div
-            className={`absolute left-0 ${size?.coverElevation} h-[170px] w-full flex justify-center items-center`}
+            className={`absolute left-0 ${size?.coverElevation} ${size?.coverSize} h-auto w-full flex justify-center items-center`}
           >
             <Image
               alt={data?.name || ""}
               src={data?.sprites.other?.dream_world.front_default}
               width={100}
               height={100}
-              className={`w-9/12 h-auto object-contain rounded-3xl`}
+              className={`w-auto h-full object-contain rounded-3xl`}
             />
           </div>
 

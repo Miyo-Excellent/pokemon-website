@@ -17,7 +17,7 @@ export const PokemonModalCloseButton = ({
     >
       <SlClose className="text-white font-medium text-xl" />
       <span className="whitespace-nowrap text-white font-medium text-md">
-        Cerrar Modal
+        Close
       </span>
     </button>
   );

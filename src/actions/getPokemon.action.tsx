@@ -4,7 +4,7 @@ import { pokemonAPI } from "@services/pokemonApi.service";
 import { PokemonModel } from "@models/pokemon.model";
 import { isNumber } from "lodash";
 
-export interface getPokemonActionOptions {
+export interface GetPokemonActionOptions {
   name?: string;
   id?: number;
 }
@@ -12,7 +12,7 @@ export interface getPokemonActionOptions {
 export const getPokemonAction = async ({
   name,
   id = 1,
-}: getPokemonActionOptions): Promise<PokemonModel | undefined> => {
+}: GetPokemonActionOptions): Promise<PokemonModel | undefined> => {
   try {
     const response = await pokemonAPI.pokemon.one(name || id.toString());
 

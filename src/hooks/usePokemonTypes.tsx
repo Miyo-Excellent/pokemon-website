@@ -2,8 +2,8 @@
 import { useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { PokemonType, PokemonTypeModel } from "@models/pokemonType.model";
-import { getPokemonTypesAction } from "@/actions/getPokemonTypes.action";
-import { clientParseToPokemonTypeModel } from "@utils/client/clientParseToPokemonTypeModel";
+import { getPokemonTypesAction } from "@actions/getPokemonTypes.action";
+import { getParsedPokemonAction } from "@actions/getPokemonTypesModel.action";
 
 export interface UsePokemonOptions {}
 
@@ -17,15 +17,13 @@ export const usePokemonTypes = ({}: UsePokemonOptions = {}) => {
   useEffect(() => {
     (async () => {
       const base: PokemonType[] = (await getPokemonTypesAction()) ?? [];
+      const parsed: PokemonTypeModel[] =
+        (await getParsedPokemonAction({ types: base })) ?? [];
 
       setIsLoading(false);
-      setData(clientParseToPokemonTypeModel(base));
+      setData(parsed);
     })();
   }, []);
-
-  const icons = clientParseToPokemonTypeModel(
-    data.map(({ name = "", url = "" }) => ({ name, url })),
-  );
 
   const handleClickType: (options: {
     name: string;
@@ -45,7 +43,6 @@ export const usePokemonTypes = ({}: UsePokemonOptions = {}) => {
     new RegExp(name, "").test(searchParams.get("type")?.toString() || "");
 
   return {
-    icons,
     data,
     isLoading,
     handleClickType,

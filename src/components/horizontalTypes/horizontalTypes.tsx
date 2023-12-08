@@ -14,8 +14,8 @@ export const HorizontalTypes = ({ selected }: HorizontalTypesProps) => {
   if (isLoading) return null;
 
   return (
-    <div className="w-full md:w-1/2 flex flex-col flex-nowrap justify-start items-stretch">
-      <h4 className="pl-2 mb-1 text-white text-lg">{`Filtrar por tipo: ${capitalize(
+    <div className="w-full flex flex-col flex-nowrap justify-start items-stretch">
+      <h4 className="pl-2 mb-1 text-white text-lg">{`Filter by type: ${capitalize(
         !!selected ? selected : "All",
       )}`}</h4>
 

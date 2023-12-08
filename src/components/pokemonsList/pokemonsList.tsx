@@ -3,7 +3,7 @@ import { PokemonCard } from "@components/pokemonCard/pokemonCard";
 import { PokemonsListPaginationButton } from "@components/pokemonsList/PokemonsListButton";
 import { Suspense } from "react";
 import { PokemonCardSkeleton } from "@components/pokemonCard/pokemonCardSkeleton";
-import { getPokemonsAction } from "@/actions/getPokemons.action";
+import { getPokemonsAction } from "@actions/getPokemons.action";
 
 export interface PokemonsListProps {
   limit?: number;

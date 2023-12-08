@@ -1,6 +1,6 @@
 "use client";
-import { ChangeEvent, MouseEvent, useState } from "react";
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { ChangeEvent, useState } from "react";
+import { useSearchParams, usePathname } from "next/navigation";
 import Link from "next/link";
 import { BsSearch } from "react-icons/bs";
 
@@ -26,7 +26,7 @@ export const Search = (props: SearchProps) => {
       <div className="flex flex-1 flex-row flex-nowrap justify-start items-center">
         <BsSearch className="text-white font-bold text-lg" />
 
-        <h4 className="pl-2 mb-1 text-white text-lg">Encuentra tu Pokemon:</h4>
+        <h4 className="pl-2 mb-1 text-white text-lg">Search your pokemon:</h4>
       </div>
 
       <div className="pr-12 pl-2 bg-gray-700 flex-1 relative flex flex-row flex-nowrap rounded-3xl border-white border-[1px] border-solid">
@@ -34,7 +34,7 @@ export const Search = (props: SearchProps) => {
           <input
             type="search"
             className="flex-1 p-2 text-white"
-            placeholder="Buscar..."
+            placeholder="Search..."
             onChange={onChangeQuery}
             defaultValue={searchParams.get("query")?.toString()}
           />

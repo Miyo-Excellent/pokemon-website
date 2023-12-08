@@ -26,9 +26,7 @@ export const PokemonCarButton = ({ name }: PokemonCarButtonProps) => {
     >
       <PiLightningBold className="font-medium text-xl" />
 
-      <span className="whitespace-nowrap font-medium text-sm">
-        Mas detalles
-      </span>
+      <span className="whitespace-nowrap font-medium text-sm">Details</span>
     </Link>
   );
 };

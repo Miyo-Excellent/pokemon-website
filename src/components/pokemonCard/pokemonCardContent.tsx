@@ -5,11 +5,10 @@ import { PokemonCarButton } from "@components/pokemonCard/PokemonCarButton";
 import { PokemonModel } from "@models/pokemon.model";
 import { TypeModel } from "@models/type.model";
 import { PokemonTypeModel } from "@models/pokemonType.model";
+import { PokemonCardCover } from "@components/pokemonCard/pokemonCardCover";
 
 export interface PokemonCardContentProps extends Omit<PokemonModel, "types"> {
   types?: TypeModel[];
-  coverElevation: string;
-  coverSize: string;
   parsedTypes: PokemonTypeModel[];
   cover: string;
 }
@@ -18,25 +17,13 @@ export const PokemonCardContent = ({
   name = "",
   height,
   weight,
-  coverElevation,
-  coverSize,
   parsedTypes,
   cover,
 }: PokemonCardContentProps) => {
   return (
     <div className="relative p-4 w-full h-full flex flex-col justify-start items-stretch gap-1 z-20">
       {cover && (
-        <div
-          className={`absolute left-0 ${coverElevation} h-48 w-full flex justify-center items-center`}
-        >
-          <Image
-            alt={name}
-            src={cover}
-            width={100}
-            height={100}
-            className={`${coverSize} max-h-[200px] h-auto object-contain`}
-          />
-        </div>
+        <PokemonCardCover cover={cover} name={name} height={Number(height)} />
       )}
 
       <div className="flex-1 h-max w-full" />

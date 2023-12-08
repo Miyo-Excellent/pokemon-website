@@ -23,7 +23,7 @@ export default function RootPage({ searchParams }: RootPageProps) {
     <main
       className={`${
         hasPokemonParam ? "overflow-y-hidden" : "overflow-y-auto"
-      } antialiased w-full h-full p-8 bg-gray-950 min-h-screen relative flex-1 flex flex-col justify-start items-center gap-8`}
+      } antialiased min-h-screen w-full h-full p-8 bg-gray-950 min-h-screen relative flex-1 flex flex-col justify-start items-center gap-8`}
     >
       {hasPokemonParam && <PokemonDetailsModal />}
 

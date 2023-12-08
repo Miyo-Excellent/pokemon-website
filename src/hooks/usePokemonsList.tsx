@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
-import { getPokemonsAction } from "@/actions/getPokemons.action";
+import { getPokemonsAction } from "@actions/getPokemons.action";
 import { PokemonBase, PokemonModel } from "@models/pokemon.model";
-import { getPokemonAction } from "@/actions/getPokemon.action";
+import { getPokemonAction } from "@actions/getPokemon.action";
 
 export interface UsePokemonsListOptions {
   type?: string;

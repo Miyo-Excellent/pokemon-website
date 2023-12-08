@@ -1,12 +1,12 @@
 "use client";
 import { PokemonModel } from "@models/pokemon.model";
 import { useEffect, useState } from "react";
-import { getPokemonAction } from "@/actions/getPokemon.action";
+import { getPokemonAction } from "@actions/getPokemon.action";
 import { PokemonType, PokemonTypeModel } from "@models/pokemonType.model";
-import { getClientBackgroundByTypes } from "@utils/client/getClientBackgroundByTypes";
-import { clientParseToPokemonTypeModel } from "@utils/client/clientParseToPokemonTypeModel";
-import { getClientPokemonSizeClassNames } from "@utils/client/getClientPokemonSizeClassNames";
 import { PokemonSize } from "@models/pokemonSize";
+import { getPokemonBackgroundByTypesAction } from "@actions/getPokemonBackgroundByTypes.action";
+import { getPokemonCssSizeAction } from "@actions/getPokemonCssSize.action";
+import { getParsedPokemonAction } from "@actions/getPokemonTypesModel.action";
 
 export interface UsePokemonOptions {
   filterType?: string;
@@ -27,14 +27,19 @@ export const usePokemon = ({ name, filterType }: UsePokemonOptions) => {
         name,
       });
 
-      const _gradient: string = getClientBackgroundByTypes(_data?.types);
+      const _gradient: string =
+        (await getPokemonBackgroundByTypesAction({
+          types: _data?.types ?? [],
+        })) ?? "";
 
-      const typesBase = (_data?.types ?? [])
+      const typesBase: PokemonType[] = (_data?.types ?? [])
         .map(({ type }) => type)
         .filter((type) => !!type) as PokemonType[];
 
       const _types: PokemonTypeModel[] =
-        clientParseToPokemonTypeModel(typesBase);
+        (await getParsedPokemonAction({
+          types: typesBase,
+        })) || [];
 
       const _hidden: boolean =
         !!filterType &&
@@ -43,7 +48,7 @@ export const usePokemon = ({ name, filterType }: UsePokemonOptions) => {
             !!typeName && new RegExp(typeName, "i").test(filterType),
         );
 
-      const _size: PokemonSize = getClientPokemonSizeClassNames({
+      const _size: PokemonSize | undefined = await getPokemonCssSizeAction({
         height: _data?.height ?? 0,
       });
 

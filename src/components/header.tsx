@@ -7,7 +7,7 @@ export interface HeaderProps {
 
 export const Header = ({ type }: HeaderProps) => {
   return (
-    <header className="header flex flex-col md:flex-row flex-nowrap gap-4">
+    <header className="header flex flex-col lg:flex-row flex-nowrap gap-4">
       <HorizontalTypes selected={type} />
 
       <Search />
